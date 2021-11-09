@@ -1,5 +1,6 @@
-import 'package:curso_manguinho/ui/helpers/helpers.dart';
 import 'package:get/get.dart';
+
+import '../../ui/helpers/helpers.dart';
 
 mixin ErrorManager on GetxController {
   final _error = Rx<UiError>(UiError.no_error);

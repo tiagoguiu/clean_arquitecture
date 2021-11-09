@@ -1,17 +1,12 @@
-
-
-import 'package:curso_manguinho/ui/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 
-
+import '../../../helpers/helpers.dart';
 import '../signup_presenter.dart';
 
 class SignUpButton extends StatelessWidget {
- 
   final SignUpPresenter presenter;
 
   const SignUpButton({required this.presenter});
-
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 
-import 'package:curso_manguinho/ui/pages/pages.dart';
+import '../../pages.dart';
 
 class SurveyItem extends StatelessWidget {
   final SurveysPresenter presenter;
@@ -16,8 +15,8 @@ class SurveyItem extends StatelessWidget {
   Widget build(BuildContext context) {
     //final presenter = Provider.of<SurveysPresenter>(context);
     return GestureDetector(
-        onTap: () => presenter.goToSurveyResult(surveyId: viewModel.id),
-          child: Padding(
+      onTap: () => presenter.goToSurveyResult(surveyId: viewModel.id),
+      child: Padding(
         padding: EdgeInsets.symmetric(vertical: 5),
         child: Container(
           padding: EdgeInsets.all(20),

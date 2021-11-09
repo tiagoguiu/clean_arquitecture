@@ -1,6 +1,6 @@
-
-import 'package:curso_manguinho/domain/entities/entities.dart';
 import 'package:equatable/equatable.dart';
+
+import 'entities.dart';
 
 class SurveyResultEntity extends Equatable {
   final String surveyId;
@@ -15,5 +15,4 @@ class SurveyResultEntity extends Equatable {
     required this.question,
     required this.answers,
   });
-
 }

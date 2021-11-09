@@ -1,6 +1,5 @@
-
-import '../http/http.dart';
 import '../../domain/entities/entities.dart';
+import '../http/http.dart';
 
 class RemoteSurveyModel {
   String id;
@@ -17,7 +16,7 @@ class RemoteSurveyModel {
   //refletindo o que vira da api
 
   factory RemoteSurveyModel.fromJson(Map json) {
-    if(!json.keys.toSet().containsAll(['id','question','date','didAnswer'])){
+    if (!json.keys.toSet().containsAll(['id', 'question', 'date', 'didAnswer'])) {
       throw HttpError.invalidData;
     }
     return RemoteSurveyModel(

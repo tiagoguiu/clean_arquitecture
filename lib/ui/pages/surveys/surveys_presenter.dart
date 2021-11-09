@@ -1,10 +1,10 @@
-import 'package:curso_manguinho/ui/helpers/errors/errors.dart';
-import 'package:curso_manguinho/ui/pages/pages.dart';
+import '../../helpers/errors/errors.dart';
+import '../pages.dart';
 
 abstract class SurveysPresenter {
   Stream<bool> get isLoadingStream;
   Stream<bool> get isSessionExpiredStream;
-  
+
   Stream<List<SurveyViewModel>> get surveyStream;
   Stream<UiError> get surveysErrorStream;
   Stream<String> get navigateToStream;
