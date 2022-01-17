@@ -12,16 +12,18 @@ class HttpAdapter implements HttpClient {
   Future<dynamic> request({
     required String url,
     required String method,
-    Map? body,
-    Map<String, String>? headers,
+    Map body = const {},
+    Map<String, String> headers = const {},
+    List<Map<String, dynamic>> files = const [],
+    Map<String, dynamic> queryParameters = const {},
   }) async {
-    final defaultHeaders = headers ?? {}
+    final defaultHeaders = headers
       ..addAll({
         'content-type': 'application/json',
         'accept': 'application/json',
       });
 
-    final jsonBody = body != null ? jsonEncode(body) : null;
+    final jsonBody = jsonEncode(body);
     //por causa do null safety body nunca pode ser null, comparação desnecessaria
     //final jsonBody = jsonEncode(body);
 
@@ -34,7 +36,8 @@ class HttpAdapter implements HttpClient {
       } else if (method == 'get') {
         response = await client.get(Uri.parse(url), headers: defaultHeaders).timeout(Duration(seconds: 5));
       } else if (method == 'put') {
-        response = await client.put(Uri.parse(url), headers: defaultHeaders, body: jsonBody).timeout(Duration(seconds: 5));
+        response =
+            await client.put(Uri.parse(url), headers: defaultHeaders, body: jsonBody).timeout(Duration(seconds: 5));
       }
     } catch (e) {
       throw HttpError.serverError;

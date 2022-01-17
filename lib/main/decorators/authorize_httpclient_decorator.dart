@@ -14,13 +14,14 @@ class AuthorizeHttpClientDecorator implements HttpClient {
   Future<dynamic> request({
     required String url,
     required String method,
-    Map? body,
-    Map<String, String>? headers,
+    Map body = const {},
+    Map<String, String> headers = const {},
+    List<Map<String, dynamic>> files = const [],
+    Map<String, dynamic> queryParameters = const {},
   }) async {
     try {
       final token = await fetchSecureFetchStorage.fetch(key: 'token');
-      final authorizedHeaders = headers ?? {}
-        ..addAll({'x-access-token': token});
+      final authorizedHeaders = headers..addAll({'x-access-token': token});
       return await decoratee.request(url: url, method: method, body: body, headers: authorizedHeaders);
     } catch (error) {
       if (error is HttpError && error != HttpError.forbidden) {
