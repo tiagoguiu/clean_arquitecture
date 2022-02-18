@@ -4,9 +4,10 @@ import '../../domain/helpers/domain_error.dart';
 import '../../domain/usecases/usecases.dart';
 import '../../ui/helpers/helpers.dart';
 import '../../ui/pages/login/login_presenter.dart';
+import '../mixins/mixins.dart';
 import '../protocols/protocols.dart';
 
-class GetxLoginPresenter extends GetxController implements LoginPresenter {
+class GetxLoginPresenter extends GetxController with NavigationManager implements LoginPresenter {
   final SaveCurrentAccount saveCurrentAccount;
   final Validation validation;
   final Authentication authentication;
@@ -16,11 +17,10 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   var _emailError = Rx<UiError>(UiError.no_error);
   var _passwordError = Rx<UiError>(UiError.no_error);
   var _mainError = Rx<UiError>(UiError.no_error);
-  var _navigateTo = RxString('');
   var _isFormValid = false.obs;
   var _isLoading = false.obs;
 
-  Stream<String> get navigateToStream => _navigateTo.stream;
+
   Stream<UiError> get emailErrorStream => _emailError.stream;
   Stream<UiError> get mainErrorStream => _mainError.stream;
   Stream<UiError> get passwordErrorStream => _passwordError.stream;
@@ -72,7 +72,7 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
       _isLoading.value = true;
       final account = await authentication.auth(AuthenticationParams(email: _email, password: _password));
       await saveCurrentAccount.save(account);
-      _navigateTo.value = '/surveys';
+      navigateToWithArgs = NavigationArguments('/surveys');
 //ESTA INFORMAÇÃO SERA PASSADA PARA UI, POIS ADICIONAR O FLUTTER NESTA CAMADA ENTRA EM DESCONFORMIDADE COM CLEAN ARQUITECTURE
     } on DomainError catch (error) {
       switch (error) {
@@ -87,6 +87,6 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   }
 
   void goToSignUp() {
-    _navigateTo.value = '/signup';
+    navigateToWithArgs = NavigationArguments('/signup');
   }
 }

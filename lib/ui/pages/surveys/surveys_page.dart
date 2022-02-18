@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../components/components.dart';
 import '../../helpers/helpers.dart';
+import '../../mixins/mixins.dart';
 import '../pages.dart';
 import 'components/components.dart';
 
@@ -16,7 +17,7 @@ class SurveysPage extends StatefulWidget {
   State<SurveysPage> createState() => _SurveysPageState();
 }
 
-class _SurveysPageState extends State<SurveysPage> with RouteAware {
+class _SurveysPageState extends State<SurveysPage> with RouteAware, NavigationManager {
   @override
   void initState() {
     /*widget.presenter.isLoadingStream.listen((isLoading) {
@@ -28,16 +29,7 @@ class _SurveysPageState extends State<SurveysPage> with RouteAware {
       }
     });*/
 
-    widget.presenter.navigateToStream.listen((page) {
-      if (page.isNotEmpty == true) {
-        Get.toNamed(page);
-      }
-    });
-    widget.presenter.isSessionExpiredStream.listen((isExpired) {
-      if (isExpired == true) {
-        Get.offAllNamed('/login');
-      }
-    });
+handleNavigationWithArgs(widget.presenter.navigateToWithArgsStream);
 
     super.initState();
   }

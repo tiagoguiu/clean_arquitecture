@@ -44,6 +44,6 @@ class GetxSurveysPresenter extends GetxController with LoadingManager, SessionMa
   }
   
   Future<void> goToSurveyResult({required String surveyId}) async {
-    navigateTo = '/survey_result/$surveyId';
+    navigateToWithArgs =  NavigationArguments('/survey_result/$surveyId');
   }
 }

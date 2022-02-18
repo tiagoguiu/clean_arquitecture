@@ -1,16 +1,36 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-mixin NavigationManager{
-  void handleNavigation(BuildContext context, Stream<String> stream, {bool clear= false}){
-    stream.listen((page) {
-      if (page.isNotEmpty == true) {
-        if(clear == true){
-          Get.offAllNamed(page);
+import '../../presentation/mixins/navigation_arguments.dart';
+
+mixin NavigationManager {
+  void handleNavigationWithArgs(Stream<NavigationArguments> stream) {
+    stream.listen((page) async {
+      if (page.route.isNotEmpty == true) {
+        if (page.clearStack == true) {
+          Get.offAllNamed(page.route, arguments: page.arguments);
         } else {
-          Get.toNamed(page);
+          if (page.replace) {
+            Get.offAndToNamed(page.route, arguments: page.arguments);
+          } else {
+            Get.toNamed(page.route, arguments: page.arguments);
+          }
         }
       }
     });
+  }
+
+  Future<T?>? goToPage<T>({required String route, arguments}) async {
+    return Get.toNamed<T>(route, arguments: arguments);
+  }
+
+  T? getNavigationArguments<T>({required String argumentKey}) {
+    if (Get.arguments != null && Get.arguments[argumentKey] != null) {
+      return Get.arguments[argumentKey] as T;
+    }
+    return null;
+  }
+
+  void navigatorPop<T>({T? result}) {
+    Get.back(result: result);
   }
 }

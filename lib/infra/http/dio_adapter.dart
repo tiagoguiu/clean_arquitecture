@@ -39,7 +39,9 @@ class DioAdapter implements HttpClient {
               .toList()
         }..addAll(Map<String, dynamic>.from(body)));
       }
-    }
+    } /* else {
+      formData = FormData.fromMap(Map<String, dynamic>.from(body));
+    }*/
 
     Future<Response>? futureResponse;
 
@@ -76,19 +78,21 @@ class DioAdapter implements HttpClient {
         );
       }
       if (futureResponse != null) {
-        response = await futureResponse.timeout(const Duration(seconds: 5));
+        response = await futureResponse.timeout(const Duration(seconds: 10));
       }
     } on DioError catch (error) {
-      if (error.response!.statusCode == 400) {
-        throw HttpError.badRequest;
-      } else if (error.response!.statusCode == 401) {
-        throw HttpError.unauthorized;
-      } else if (error.response!.statusCode == 403) {
-        throw HttpError.forbidden;
-      } else if (error.response!.statusCode == 404) {
-        throw HttpError.notFound;
-      } else {
-        throw HttpError.serverError;
+      if (error.response != null) {
+        if (error.response!.statusCode == 400) {
+          throw HttpError.badRequest;
+        } else if (error.response!.statusCode == 401) {
+          throw HttpError.unauthorized;
+        } else if (error.response!.statusCode == 403) {
+          throw HttpError.forbidden;
+        } else if (error.response!.statusCode == 404) {
+          throw HttpError.notFound;
+        } else {
+          throw HttpError.serverError;
+        }
       }
     }
     return _handleResponse(response);

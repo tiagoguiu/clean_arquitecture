@@ -1,3 +1,4 @@
+import '../../../presentation/mixins/mixins.dart';
 import '../../helpers/errors/errors.dart';
 import '../pages.dart';
 
@@ -7,7 +8,7 @@ abstract class SurveysPresenter {
 
   Stream<List<SurveyViewModel>> get surveyStream;
   Stream<UiError> get surveysErrorStream;
-  Stream<String> get navigateToStream;
+  Stream<NavigationArguments> get navigateToWithArgsStream;
 
   Future<void> loadData();
   Future<void> goToSurveyResult({required String surveyId});

@@ -16,24 +16,21 @@ class SignUpPage extends StatefulWidget with KeyboardManager, LoadingManager, Na
   _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpPageState extends State<SignUpPage> with NavigationManager {
   @override
   void initState() {
-     widget.handleLoading(context, widget.presenter.isLoadingStream);
+    super.initState();
+    widget.handleLoading(context, widget.presenter.isLoadingStream);
 
     widget.presenter.mainErrorStream.listen((error) {
       showErrorMessage(context, error.description);
     });
 
-    widget.handleNavigation(context, widget.presenter.navigateToStream, clear: true);
-
-    super.initState();
+    handleNavigationWithArgs(widget.presenter.navigateToWithArgsStream);
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: GestureDetector(
         onTap: () => widget.hideKeyboard(context),

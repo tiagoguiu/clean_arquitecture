@@ -1,7 +1,13 @@
 import 'package:get/get.dart';
 
-mixin NavigationManager on GetxController{
-  final _navigateTo = Rx<String>('');
-  Stream<String> get navigateToStream => _navigateTo.stream;
-  set navigateTo(String value) => _navigateTo.subject.add(value);
+import 'navigation_arguments.dart';
+
+mixin NavigationManager on GetxController {
+  final _navigateToWithArgs = Rx<NavigationArguments>(const NavigationArguments(''));
+  Stream<NavigationArguments> get navigateToWithArgsStream => _navigateToWithArgs.stream;
+  set navigateToWithArgs(NavigationArguments value) => _navigateToWithArgs.subject.add(value);
+
+  final _navigateToWithArgsAndClearStack = Rx<NavigationArguments>(const NavigationArguments(''));
+  Stream<NavigationArguments> get navigateToWithArgsAndClearStackStream => _navigateToWithArgsAndClearStack.stream;
+  set navigateToWithArgsAndClearStack(NavigationArguments value) => _navigateToWithArgsAndClearStack.subject.add(value);
 }

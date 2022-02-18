@@ -4,9 +4,10 @@ import '../../domain/helpers/helpers.dart';
 import '../../domain/usecases/usecases.dart';
 import '../../ui/helpers/helpers.dart';
 import '../../ui/pages/pages.dart';
+import '../mixins/mixins.dart';
 import '../protocols/protocols.dart';
 
-class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
+class GetxSignUpPresenter extends GetxController with NavigationManager implements SignUpPresenter {
   final SaveCurrentAccount saveCurrentAccount;
   final Validation validation;
   final AddAccount addAccount;
@@ -21,11 +22,10 @@ class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
   var _mainError = Rx<UiError>(UiError.no_error);
   var _nameError = Rx<UiError>(UiError.no_error);
   var _passwordConfirmError = Rx<UiError>(UiError.no_error);
-  var _navigateTo = RxString('no_error');
+
   var _isFormValid = false.obs;
   var _isLoading = false.obs;
 
-  Stream<String> get navigateToStream => _navigateTo.stream;
   Stream<UiError> get emailErrorStream => _emailError.stream;
   Stream<UiError> get mainErrorStream => _mainError.stream;
   Stream<UiError> get passwordErrorStream => _passwordError.stream;
@@ -67,10 +67,10 @@ class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
 
   UiError _validateField({required String field}) {
     final formData = {
-      'name' : _name,
-      'email' : _email,
-      'password' : _password,
-      'passwordConfirmation' : _passwordConfirmation,
+      'name': _name,
+      'email': _email,
+      'password': _password,
+      'passwordConfirmation': _passwordConfirmation,
     };
     final error = validation.validate(field: field, input: formData);
     switch (error) {
@@ -105,7 +105,7 @@ class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
         passwordConfirmation: _passwordConfirmation,
       ));
       await saveCurrentAccount.save(account);
-      _navigateTo.value = '/surveys';
+      navigateToWithArgs = NavigationArguments('/surveys');
 //ESTA INFORMAÇÃO SERA PASSADA PARA UI, POIS ADICIONAR O FLUTTER NESTA CAMADA ENTRA EM DESCONFORMIDADE COM CLEAN ARQUITECTURE
     } on DomainError catch (error) {
       switch (error) {
@@ -118,8 +118,8 @@ class GetxSignUpPresenter extends GetxController implements SignUpPresenter {
       _isLoading.value = false;
     }
   }
-  void goToLogin(){
-    _navigateTo.value = '/login';
-  }
 
+  void goToLogin() {
+    navigateToWithArgs = NavigationArguments('/login');
+  }
 }

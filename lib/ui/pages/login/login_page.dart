@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget with KeyboardManager, LoadingManager, Nav
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> with NavigationManager{
   @override
   void initState() {
     widget.handleLoading(context, widget.presenter.isLoadingStream);
@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     });
 
 
-    widget.handleNavigation(context, widget.presenter.navigateToStream, clear: true);
+    handleNavigationWithArgs(widget.presenter.navigateToWithArgsStream);
     super.initState();
   }
 
